@@ -8,14 +8,42 @@ MAX_WAIT = 10
 
 class NewVisitorTest(LiveServerTestCase):
 
+	"""
+    Functional tests simulating a new visitor's interactions with the web application using Selenium.
+    """
+
 	def setUp(self):
+		"""
+        Set up the test environment before each test case.
+
+        This method initializes a new Firefox browser instance for Selenium tests.
+        """
 		self.browser = webdriver.Firefox()
 
 	def tearDown(self):
+		"""
+        Clean up after each test case.
+
+        This method quits the browser instance to ensure that no state carries over between tests.
+        """
 		self.browser.quit()
 
 	# Auxiliary method 
 	def wait_for_row_in_list_table(self, row_text):
+		"""
+        Wait for a specific row to appear in the list table.
+
+        This helper method repeatedly checks the table with ID 'id_list_table'
+        for a row that contains the provided text. If the row does not appear
+        within MAX_WAIT seconds, the method raises an exception.
+
+        Args:
+            row_text (str): The text expected to be found in one of the table rows.
+
+        Raises:
+            AssertionError: If the row text is not found within the allowed time.
+            WebDriverException: If there is an issue interacting with the browser.
+        """
 		start_time = time.time()
 		while True:
 			try:
@@ -30,6 +58,18 @@ class NewVisitorTest(LiveServerTestCase):
 
 
 	def test_can_start_a_list_for_one_user(self):
+		"""
+        Test that a user can start a new prioritized to-do list.
+
+        The simulated user (Edith) performs the following actions:
+          - Visits the homepage.
+          - Checks that the page title and header contain "Priority-To-Do".
+          - Enters a new to-do item ("Comprar anzol") into the input box.
+          - Submits the item and verifies it appears in the list.
+          - Adds a second item ("Comprar cola instantânea") and verifies both items appear.
+          - Observes that the application assigns a unique URL to her list.
+          - Finally, the browser is restarted to simulate a new user session.
+        """
 		# Edith ouviu falar de uma nova aplicação online interessante
 		# para lista de tarefas. Ela decide verificar a homepage
 
